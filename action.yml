@@ -1,13 +1,24 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'AWS Lambda Packager'
+description: 'GitHub action that will package a Node.js project for deployment to AWS Lambda'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  root:
+    description: 'Project root directory'
     required: true
-    default: '1000'
+    default: '.'
+  src:
+    description: 'Project source directory, relative to root'
+    required: true
+    default: 'src'
+  packageName:
+    description: 'The name of the packaged project. One of "SHA" (the current commit SHA), "SHORT_SHA" (the current commit short SHA) or a literal to use.'
+    required: true
+    default: 'SHORT_SHA'
 outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  package:
+    description: 'The path to the resulting packaged project'
 runs:
   using: 'node12'
   main: 'dist/index.js'
+branding:
+  icon: archive
+  color: orange
