@@ -2,7 +2,6 @@ const core = require('@actions/core')
 const archiver = require('archiver')
 const childProcess = require('child_process')
 const fs = require('fs-extra')
-const os = require('os')
 const path = require('path')
 const util = require('util')
 
@@ -34,8 +33,7 @@ async function run () {
 
     const packageName = `${name.trim()}.zip`
 
-    const tmpDir = os.tmpdir()
-    const outputDir = await fs.mkdtemp(`${tmpDir}${path.sep}`)
+    const outputDir = await fs.mkdtemp(`${workspace}${path.sep}`)
 
     // Copy source
     await fs.copy(srcDir, outputDir)
@@ -48,15 +46,14 @@ async function run () {
     await exec('npm ci --production', {cwd: outputDir})
 
     // Zip the project
-    const outputPath = path.join(await fs.mkdtemp(`${tmpDir}${path.sep}`), packageName)
+    const outputPath = path.join(await fs.mkdtemp(`${workspace}${path.sep}`), packageName)
     const output = fs.createWriteStream(outputPath)
     const archive = archiver('zip', {
       zlib: {level: 9} // Sets the compression level.
     })
 
     output.on('close', () => {
-      console.log(archive.pointer() + ' total bytes')
-      console.log('archiver has been finalized and the output file descriptor has closed.')
+      console.log(`${archive.pointer()} total bytes writen to file.`)
     })
 
     archive.on('warning', err => {
@@ -71,9 +68,10 @@ async function run () {
     archive.directory(outputDir, false)
     archive.finalize()
 
-    console.log('outputPath', outputPath)
+    console.log(`Package written to ${outputPath}`)
 
-    core.setOutput('package', outputPath)
+    core.setOutput('path', path.dirname(outputPath))
+    core.setOutput('name', path.basename(outputPath))
   } catch (error) {
     core.setFailed(error.message)
   }

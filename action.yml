@@ -14,8 +14,10 @@ inputs:
     required: true
     default: 'SHORT_SHA'
 outputs:
-  package:
-    description: 'The path to the resulting packaged project'
+  path:
+    description: 'The directory path to the resulting packaged project'
+  name:
+    description: 'The file name of the resulting packaged project'
 runs:
   using: 'node12'
   main: 'dist/index.js'
