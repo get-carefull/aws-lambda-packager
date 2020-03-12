@@ -9,18 +9,16 @@ const util = require('util')
 const exec = util.promisify(childProcess.exec)
 
 async function run () {
+  const {GITHUB_SHA: sha, GITHUB_WORKSPACE: workspace} = process.env
+
   try {
     let root = core.getInput('root')
     const src = core.getInput('src')
     let name = core.getInput('packageName')
 
-    if (root === '.') {
-      root = process.cwd()
-    }
-
+    root = path.join(workspace, root)
     const srcDir = path.join(root, src)
 
-    const sha = process.env.GITHUB_SHA
     switch (name) {
       case 'SHA':
         name = sha
