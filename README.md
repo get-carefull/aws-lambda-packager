@@ -6,7 +6,7 @@ GitHub action that will package a Node.js project for deployment to AWS Lambda.
 
 ### `root`
 
-**Required** Project root directory. Default `"."`.
+**Required** Project root directory, relative to _GITHUB_WORKSPACE_. Default `"."`.
 
 ### `src`
 
@@ -14,13 +14,17 @@ GitHub action that will package a Node.js project for deployment to AWS Lambda.
 
 ### `packageName`
 
-**Required** The name of the packaged project. One of "SHA" (the current commit SHA), "SHORT_SHA" (the current commit short SHA) or a literal to use.. Default `"SHORT_SHA"`.
+**Required** The name of the packaged project. One of "SHA" (the current commit SHA), "SHORT_SHA" (the current commit short SHA) or a literal to use. Default `"SHORT_SHA"`.
 
 ## Outputs
 
-### `package`
+### `path`
 
-The path to the packaged project.
+The directory path to the resulting packaged project.
+
+### `name`
+
+The file name of the resulting packaged project
 
 ## Example usage
 
@@ -29,5 +33,5 @@ uses: get-carefull/aws-lambda-packager
 with:
   root: '/root'
   src: 'my_src'
-  packageName: 'my_package.zip'
+  packageName: 'my_package'
 ```
