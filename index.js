@@ -13,22 +13,13 @@ async function run () {
   try {
     let root = core.getInput('root')
     const src = core.getInput('src')
-    let name = core.getInput('packageName')
+    let name = core.getInput('name')
 
     root = path.join(workspace, root)
     const srcDir = path.join(root, src)
 
-    switch (name) {
-      case 'SHA':
-        name = sha
-        break
-      case 'SHORT_SHA':
-        name = sha.substring(0, 8)
-        break
-    }
-
     if (name.trim() === '') {
-      throw new Error('Package name cannot be empty')
+      name = sha
     }
 
     const packageName = `${name.trim()}.zip`

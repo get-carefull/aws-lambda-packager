@@ -12,9 +12,9 @@ GitHub action that will package a Node.js project for deployment to AWS Lambda.
 
 **Required** Project source directory, relative to root. Default `"src"`.
 
-### `packageName`
+### `name`
 
-**Required** The name of the packaged project. One of "SHA" (the current commit SHA), "SHORT_SHA" (the current commit short SHA) or a literal to use. Default `"SHORT_SHA"`.
+**Required** The name of the packaged project. Default `"$GITHUB_SHA"`.
 
 ## Outputs
 
